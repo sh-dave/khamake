@@ -84,12 +84,12 @@ function compileShader(exporter, platform, project, shader, to, temp, compiler, 
 		case Platform.Android:
 		case Platform.Android + '-native': {
 			if (Options.graphicsApi === GraphicsApi.Vulkan) {
-				compileShader2(compiler, 'spirv', shader.files[0], to.resolve(name + ".spirv"), temp, platform, kfx);
+				compileShader2(compiler, 'spirv', shader.files[0], to.resolve(name + ".spirv"), temp, 'android', kfx);
 				addShader(project, name, '.spirv');
 			}
 			else {
 				let shaderpath = to.resolve(name + '.essl');
-				compileShader2(compiler, "essl", shader.files[0], shaderpath, temp, platform, kfx);
+				compileShader2(compiler, "essl", shader.files[0], shaderpath, temp, 'android', kfx);
 				addShader(project, name, ".essl");
 			}
 			break;
@@ -99,6 +99,7 @@ function compileShader(exporter, platform, project, shader, to, temp, compiler, 
 		case Platform.DebugHTML5:
 		case Platform.HTML5Worker:
 		case Platform.Tizen:
+		case Platform.Pi:
 		case Platform.iOS: {
 			if (Options.graphicsApi === GraphicsApi.Metal) {
 				if (!Files.isDirectory(to.resolve(Paths.get('..', 'ios-build', 'Sources')))) {
@@ -285,7 +286,7 @@ function exportProjectFiles(name, from, to, options, exporter, platform, khaDire
 			out += "}\n";*/
 
 			for (let lib of libraries) {
-				var libPath = lib.libpath;
+				var libPath = lib.libroot;
 				out += "if (fs.existsSync(path.join('" + libPath.replaceAll('\\', '/') + "', 'korefile.js'))) {\n";
 				out += "\tproject.addSubProject(Solution.createProject('" + libPath.replaceAll('\\', '/') + "'));\n";
 				out += "}\n";
