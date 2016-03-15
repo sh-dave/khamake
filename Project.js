@@ -72,6 +72,11 @@ class Project {
 			android: {},
 			android_native: {}
 		}
+		this.assetOptions = {
+			audio : {
+				preferredFormat : null
+			}
+		}
 	}
 
 	/**

@@ -96,7 +96,7 @@ class CSharpExporter extends KhaExporter {
 		return [to];
 	}*/
 
-	copySound(platform, from, to, encoders) {
+	copySound(platform, from, to, encoders, options) {
 		return [to];
 	}
 

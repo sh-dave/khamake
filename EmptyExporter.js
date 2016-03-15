@@ -68,7 +68,7 @@ class EmptyExporter extends KhaExporter {
 		}
 	}
 
-	copySound(platform, from, to, encoders) {
+	copySound(platform, from, to, encoders, options) {
 		return [];
 	}
 

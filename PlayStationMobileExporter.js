@@ -150,7 +150,7 @@ class PlayStationMobileExporter extends CSharpExporter {
 		callback();
 	}*/
 
-	copySound(platform, from, to, encoders) {
+	copySound(platform, from, to, encoders, options) {
 		return [];
 	}
 

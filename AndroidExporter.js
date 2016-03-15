@@ -148,7 +148,7 @@ class AndroidExporter extends KhaExporter {
 		});
 	}*/
 
-	copySound(platform, from, to, encoders) {
+	copySound(platform, from, to, encoders, options) {
 		fs.copySync(from.toString(), this.directory.resolve(Paths.get(this.sysdir(), this.safename, 'app', 'src', 'main', 'assets', to + '.wav')).toString(), { clobber: true });
 		return [to + '.wav'];
 	}

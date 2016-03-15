@@ -284,7 +284,7 @@ class WpfExporter extends CSharpExporter {
 		});
 	}*/
 
-	copySound(platform, from, to, encoders) {
+	copySound(platform, from, to, encoders, options) {
 		fs.copySync(from.toString(), this.directory.resolve(this.sysdir()).resolve(to + '.wav').toString(), { clobber: true });
 		return [to + '.wav'];
 	}

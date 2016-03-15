@@ -71,7 +71,7 @@ class UnityExporter extends KhaExporter {
 		callback([to]);
 	}*/
 
-	copySound(platform, from, to, encoders) {
+	copySound(platform, from, to, encoders, options) {
 		let ogg = Converter.convert(from, this.directory.resolve(this.sysdir()).resolve(Paths.get('Assets', 'Resources', 'Sounds', to + '.ogg')), encoders.oggEncoder);
 		return [to + '.ogg'];
 	}

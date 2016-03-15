@@ -205,7 +205,7 @@ function fixName(name) {
 	return name;
 }
 
-function exportAssets(assets, exporter, from, khafolders, platform, encoders) {
+function exportAssets(assets, exporter, from, khafolders, platform, encoders, assetOptions) {
 	let index = 0;
 	for (let asset of assets) {
 		let fileinfo = pathlib.parse(asset.file);
@@ -218,7 +218,7 @@ function exportAssets(assets, exporter, from, khafolders, platform, encoders) {
 				files = exporter.copyImage(platform, asset.file, fileinfo.name, asset);
 				break;
 			case 'sound':
-				files = exporter.copySound(platform, asset.file, fileinfo.name, encoders);
+				files = exporter.copySound(platform, asset.file, fileinfo.name, encoders, assetOptions.audio);
 				break;
 			case 'font':
 				files = exporter.copyFont(platform, asset.file, fileinfo.name);
@@ -424,7 +424,14 @@ function exportKhaProject(from, to, platform, khaDirectory, haxeDirectory, oggEn
 		height : 600
 	}
 	
+	let defaultAssetOptions = {
+		audio : {
+			preferredFormat : null
+		}
+	}
+	
 	let windowOptions = project.windowOptions ? project.windowOptions : defaultWindowOptions;
+	let assetOptions = project.assetOptions ? project.assetOptions : defaultAssetOptions;
 	
 	exporter.setName(name);
 	exporter.setWidthAndHeight(
@@ -452,7 +459,7 @@ function exportKhaProject(from, to, platform, khaDirectory, haxeDirectory, oggEn
 		theoraEncoder: theoraEncoder,
 		kravur: options.kravur
 	};
-	exportAssets(project.assets, exporter, from, khafolders, platform, encoders);
+	exportAssets(project.assets, exporter, from, khafolders, platform, encoders, assetOptions);
 	let shaderDir = to.resolve(exporter.sysdir() + '-resources');
 	if (platform === Platform.Unity) {
 		shaderDir = to.resolve(Paths.get(exporter.sysdir(), 'Assets', 'Shaders'));

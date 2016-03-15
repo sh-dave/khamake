@@ -132,7 +132,7 @@ class FlashExporter extends KhaExporter {
 		return files;
 	}*/
 
-	copySound(platform, from, to, encoders) {
+	copySound(platform, from, to, encoders, options) {
 		Files.createDirectories(this.directory.resolve(this.sysdir()).resolve(to).parent());
 		Converter.convert(from, this.directory.resolve(this.sysdir()).resolve(to + '.ogg'), encoders.oggEncoder);
 		if (this.embed) this.sounds.push(to + '.ogg');

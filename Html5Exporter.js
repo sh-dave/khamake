@@ -114,7 +114,7 @@ class Html5Exporter extends KhaExporter {
 		});
 	}*/
 
-	copySound(platform, from, to, encoders) {
+	copySound(platform, from, to, encoders, options) {
 		Files.createDirectories(this.directory.resolve(this.sysdir()).resolve(to).parent());
 		let ogg = Converter.convert(from, this.directory.resolve(this.sysdir()).resolve(to + '.ogg'), encoders.oggEncoder);
 		let mp4 = Converter.convert(from, this.directory.resolve(this.sysdir()).resolve(to + '.mp4'), encoders.aacEncoder);

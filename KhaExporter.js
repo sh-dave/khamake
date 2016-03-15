@@ -77,7 +77,7 @@ class KhaExporter extends Exporter {
 		return [];
 	}*/
 
-	copySound(platform, from, to, encoders) {
+	copySound(platform, from, to, encoders, options) {
 		return [];
 	}
 
