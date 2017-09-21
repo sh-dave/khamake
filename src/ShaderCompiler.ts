@@ -232,7 +232,12 @@ export class ShaderCompiler {
 	async run(watch: boolean): Promise<CompiledShader[]> {
 		let shaders: CompiledShader[] = [];
 		for (let matcher of this.shaderMatchers) {
-			shaders = shaders.concat(await this.watch(watch, matcher.match, matcher.options));
+			try {
+				shaders = shaders.concat(await this.watch(watch, matcher.match, matcher.options));
+			}
+			catch (error) {
+
+			}
 		}
 		return shaders;
 	}
@@ -288,12 +293,16 @@ export class ShaderCompiler {
 									parameters.push('-D' + define);
 								}
 							}
-							if (this.platform === Platform.HTML5 || this.platform === Platform.Android) {
+							if (this.platform === Platform.HTML5 || this.platform === Platform.HTML5Worker || this.platform === Platform.Android) {
 								parameters.push('--relax');
 							}
 
+							parameters[1] = path.resolve(parameters[1]);
+							parameters[2] = path.resolve(parameters[2]);
+							parameters[3] = path.resolve(parameters[3]);
+							
 							let child = child_process.spawn(this.compiler, parameters);
-
+							
 							child.stdout.on('data', (data: any) => {
 								log.info(data.toString());
 							});
