@@ -90,7 +90,11 @@ async function exportProjectFiles(name, resourceDir, projectData, options, expor
         if (options.debug && haxeOptions.parameters.indexOf('-debug') < 0) {
             haxeOptions.parameters.push('-debug');
         }
-        HaxeProject_1.writeHaxeProject(options.to, !options.noproject, haxeOptions);
+        var hxmlData = HaxeProject_1.writeHaxeProject(options.to, !options.noproject, haxeOptions);
+        if (options.displayarguments) {
+            // (DK) not using log.info on purpose, as we require --silent to not show non-hxml data/logs
+            console.log(hxmlData);
+        }
         if (!options.nohaxe) {
             let compiler = new HaxeCompiler_1.HaxeCompiler(options.to, haxeOptions.to, haxeOptions.realto, resourceDir, options.haxe, 'project-' + exporter.sysdir() + '.hxml', haxeOptions.sources);
             lastHaxeCompiler = compiler;

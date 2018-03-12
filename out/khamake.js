@@ -214,6 +214,11 @@ let options = [
         value: true,
         default: 0
     },
+    {
+        full: 'displayarguments',
+        descriptions: 'Print the arguments for the haxe compiler.',
+        value: false,
+    },
 ];
 let parsedOptions = new Options_1.Options();
 function printHelp() {

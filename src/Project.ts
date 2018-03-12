@@ -12,7 +12,7 @@ export class Library {
 export class Target {
 	baseTarget: string;
 	backends: string[];
-	
+
 	constructor(baseTarget: string, backends: string[]) {
 		this.baseTarget = baseTarget;
 		this.backends = backends;
@@ -45,7 +45,7 @@ export class Project {
 	assetMatchers: { match: string, options: any }[];
 	shaderMatchers: { match: string, options: any }[];
 	customTargets: Map<string, Target>;
-	
+
 	constructor(name: string) {
 		this.name = name;
 		this.sources = [];
@@ -90,13 +90,13 @@ export class Project {
 	 */
 	addAssets(match: string, options: any) {
 		if (!options) options = {};
-		
+
 		// try to avoid weird paths - remove when https://github.com/paulmillr/chokidar/issues/300 is fixed
 		match = path.resolve(this.scriptdir, match);
 		if (contains(process.cwd(), match)) {
 			match = path.relative(process.cwd(), match);
 		}
-		
+
 		this.assetMatchers.push({ match: match, options: options });
 	}
 
@@ -110,7 +110,7 @@ export class Project {
 	 */
 	addShaders(match: string, options: any) {
 		if (!options) options = {};
-		
+
 		// try to avoid weird paths - remove when https://github.com/paulmillr/chokidar/issues/300 is fixed
 		match = path.resolve(this.scriptdir, match);
 		if (contains(process.cwd(), match)) {
@@ -127,11 +127,11 @@ export class Project {
 	addCDefine(define: string) {
 		this.cdefines.push(define);
 	}
-	
+
 	addParameter(parameter: string) {
 		this.parameters.push(parameter);
 	}
-	
+
 	addTarget(name: string, baseTarget: string, backends: string[]) {
 		this.customTargets.set(name, new Target(baseTarget, backends));
 	}
@@ -176,10 +176,10 @@ export class Project {
 			log.error('Add it to the \'Libraries\' subdirectory of your project. You may also install it via haxelib but that\'s less cool.');
 			throw 'Library ' + name + ' not found.';
 		}
-		
+
 		let libInfo = findLibraryDirectory(library);
 		let dir = libInfo.libpath;
-		
+
 		if (dir !== '') {
 			this.libraries.push({
 				libpath: dir,
@@ -213,7 +213,7 @@ export class Project {
 				// e.g. Libraries/wyngine/Sources
 				this.sources.push(path.join(dir, 'Sources'));
 			}
-			
+
 			if (fs.existsSync(path.join(dir, 'extraParams.hxml'))) {
 				let params = fs.readFileSync(path.join(dir, 'extraParams.hxml'), 'utf8');
 				for (let parameter of params.split('\n')) {
@@ -223,7 +223,7 @@ export class Project {
 							// (DK)
 							//  - '-lib xxx' is for linking a library via haxe, it forces the use of the haxelib version
 							//  - this should be handled by khamake though, as it tracks the dependencies better (local folder or haxelib)
-							console.log('ignoring', dir + '/extraParams.hxml "' + param + '"');
+							log.info('ignoring ' + dir + '/extraParams.hxml "' + param + '"');
 						}
 						else {
 							this.addParameter(param);
@@ -231,7 +231,7 @@ export class Project {
 					}
 				}
 			}
-			
+
 			this.addShaders(dir + '/Sources/Shaders/**', {});
 		}
 	}

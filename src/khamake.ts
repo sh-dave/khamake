@@ -218,6 +218,11 @@ let options: Array<any> = [
 		value: true,
 		default: 0
 	},
+	{
+		full: 'displayarguments',
+		descriptions: 'Print the arguments for the haxe compiler.',
+		value: false,
+	},
 ];
 
 let parsedOptions: any = new Options();
@@ -315,7 +320,7 @@ async function runKhamake() {
 				process.stderr.write(text);
 			}
 		};
-		await require('./main.js').run(parsedOptions, { info: logInfo, error: logError }, (name: string) => { });
+		await require('./main.js').run(parsedOptions, { info: logInfo, error: logError }, (name: string) => {});
 	}
 	catch (error) {
 		console.log(error);

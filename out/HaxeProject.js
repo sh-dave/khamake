@@ -140,6 +140,7 @@ function hxml(projectdir, options) {
         data += '-main ' + entrypoint + '\n';
     }
     fs.outputFileSync(path.join(projectdir, 'project-' + options.system + '.hxml'), data);
+    return data;
 }
 function FlashDevelop(projectdir, options) {
     let platform;
@@ -375,11 +376,12 @@ function FlashDevelop(projectdir, options) {
     XmlWriter_1.writeXml(project, path.join(projectdir, options.safeName + '-' + options.system + '.hxproj'));
 }
 function writeHaxeProject(projectdir, projectFiles, options) {
-    hxml(projectdir, options);
+    var hxmlData = hxml(projectdir, options);
     if (projectFiles) {
         FlashDevelop(projectdir, options);
         IntelliJ(projectdir, options);
     }
+    return hxmlData;
 }
 exports.writeHaxeProject = writeHaxeProject;
 //# sourceMappingURL=HaxeProject.js.map

@@ -87,7 +87,7 @@ function IntelliJ(projectdir: string, options: any) {
 	fs.copySync(path.join(indir, 'idea', 'copyright', 'profiles_settings.xml'), path.join(outdir, '.idea', 'copyright', 'profiles_settings.xml'), { overwrite: true });
 }
 
-function hxml(projectdir: string, options: any) {
+function hxml(projectdir: string, options: any): string {
 	let data = '';
 	for (let i = 0; i < options.sources.length; ++i) {
 		if (path.isAbsolute(options.sources[i])) {
@@ -145,10 +145,11 @@ function hxml(projectdir: string, options: any) {
 
 	if (!options.parameters.some((param: string) => param.includes('-main '))) {
 		const entrypoint = options ? options.main ? options.main : 'Main' : 'Main';
-		data += '-main ' + entrypoint + '\n';	
+		data += '-main ' + entrypoint + '\n';
 	}
 
 	fs.outputFileSync(path.join(projectdir, 'project-' + options.system + '.hxml'), data);
+	return data;
 }
 
 function FlashDevelop(projectdir: string, options: any) {
@@ -397,10 +398,12 @@ function FlashDevelop(projectdir: string, options: any) {
 	writeXml(project, path.join(projectdir, options.safeName + '-' + options.system + '.hxproj'));
 }
 
-export function writeHaxeProject(projectdir: string, projectFiles: boolean, options: any) {
-	hxml(projectdir, options);
+export function writeHaxeProject(projectdir: string, projectFiles: boolean, options: any): string {
+	var hxmlData = hxml(projectdir, options);
 	if (projectFiles) {
 		FlashDevelop(projectdir, options);
 		IntelliJ(projectdir, options);
 	}
+
+	return hxmlData;
 }
